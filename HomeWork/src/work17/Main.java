@@ -24,11 +24,16 @@ public class Main {
 	private Remover remover = new Remover();
 	private Serializator serializator = new Serializator();
 	private List<Pet> pets = new ArrayList<>();
+	private List<Pet> pets2 = new ArrayList<>();
 
 	private void addTestZooClub() {
 		pets.add(new Pet("dog"));
 		pets.add(new Pet("cat"));
 		zooClub.getMap().put(new Person("X", 54, Gender.FEMALE), pets);
+		pets2.add(new Pet("pig"));
+		pets2.add(new Pet("cat"));
+		pets2.add(new Pet("mouse"));
+		zooClub.getMap().put(new Person("Y", 25, Gender.MALE), pets2);
 	}
 
 	private void printZooClub(ZooClub zooClub) {
@@ -88,7 +93,10 @@ public class Main {
 				serializator.serializeOverride(zooClub);
 				break;
 			case "9":
-				printZooClub(serializator.readFromFile());
+				List<ZooClub> zooClubs=serializator.readFromFile();
+				for (ZooClub zooClub : zooClubs) {
+					printZooClub(zooClub);
+				}
 				break;
 			case "0":
 				isRun = false;

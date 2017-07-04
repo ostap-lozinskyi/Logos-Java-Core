@@ -14,6 +14,10 @@ public class ZooClub implements Serializable {
 		this.map = new HashMap<>();
 	}
 
+	public ZooClub(Map<Person, List<Pet>> map) {
+		this.map = map;
+	}
+
 	public Map<Person, List<Pet>> getMap() {
 		return map;
 	}

@@ -1,79 +1,79 @@
 package work17.Model;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.Map.Entry;
 
+import work17.Person;
+import work17.Gender;
+import work17.Pet;
 import work17.ZooClub;
 
 public class Serializator {
 	public void serialize(ZooClub zooClub) {
-		OutputStream os = null;
-		ObjectOutputStream oos = null;
-		try {
-			os = new FileOutputStream(new File("save.save"), true);
-			oos = new ObjectOutputStream(os);
-			oos.writeObject(zooClub);
-			System.out.println("Зооклуб записано");
+		try (FileWriter writer = new FileWriter("save.txt", true)) {
+			Map<Person, List<Pet>> map = zooClub.getMap();
+			Set<Entry<Person, List<Pet>>> entrySet = map.entrySet();
+			for (Entry<Person, List<Pet>> entry : entrySet) {
+				writer.append(entry.getKey().getName() + " " + entry.getKey().getAge() + " "
+						+ entry.getKey().getGender() + " " + petsString(entry.getValue()) + "\n");
+			}
+			System.out.println("Клуб дописано");
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			if (oos != null) {
-				try {
-					oos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if (os != null) {
-				try {
-					os.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 		}
+	}
+
+	public String petsString(List<Pet> pets) {
+		String petStr = "";
+		for (Pet pet : pets) {
+			petStr += pet.getName() + " ";
+		}
+		return petStr;
 	}
 
 	public void serializeOverride(ZooClub zooClub) {
-		OutputStream os = null;
-		ObjectOutputStream oos = null;
-		try {
-			os = new FileOutputStream(new File("save.save"));
-			oos = new ObjectOutputStream(os);
-			oos.writeObject(zooClub);
-			System.out.println("Зооклуб перезаписано");
+		try (FileWriter writer = new FileWriter("save.txt")) {
+			Map<Person, List<Pet>> map = zooClub.getMap();
+			Set<Entry<Person, List<Pet>>> entrySet = map.entrySet();
+			for (Entry<Person, List<Pet>> entry : entrySet) {
+				writer.append(entry.getKey().getName() + " " + entry.getKey().getAge() + " "
+						+ entry.getKey().getGender() + " " + petsString(entry.getValue()) + "\n");
+			}
+			System.out.println("Клуб перезаписано");
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			if (oos != null) {
-				try {
-					oos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if (os != null) {
-				try {
-					os.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 	}
 
-	public ZooClub readFromFile() {
+	public List<ZooClub> readFromFile() {
+		List<ZooClub> zooClubs = new ArrayList<>();
 		ZooClub zooClub = null;
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("save.save")))) {
-			zooClub = (ZooClub) ois.readObject();
-		} catch (IOException | ClassNotFoundException e) {
+		try (Scanner sc = new Scanner(new File("save.txt"))) {
+			while (sc.hasNextLine()) {
+				String line = sc.nextLine();
+				if (!line.isEmpty()) {
+					String[] array = line.split(" ");
+					Map<Person, List<Pet>> map = new HashMap<>();
+					List<Pet> pets = new ArrayList<>();
+					for (int i = 3; i < array.length; i++) {
+						pets.add(new Pet(array[i]));
+					}
+					map.put(new Person(array[0], Integer.valueOf(array[1]), Gender.valueOf(array[2])), pets);
+					zooClub = new ZooClub(map);
+					zooClubs.add(zooClub);
+				}
+			}
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return zooClub;
+		return zooClubs;
 	}
 }
