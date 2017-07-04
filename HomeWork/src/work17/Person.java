@@ -41,7 +41,7 @@ public class Person implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Person [" + name + " " + age + " " + gender + "]";
+		return "Учасник клубу: " + name + " " + age + " " + gender + " має тваринок: ";
 	}
 
 	@Override

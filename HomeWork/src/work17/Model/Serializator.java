@@ -53,27 +53,25 @@ public class Serializator {
 		}
 	}
 
-	public List<ZooClub> readFromFile() {
-		List<ZooClub> zooClubs = new ArrayList<>();
+	public ZooClub readFromFile() {
 		ZooClub zooClub = null;
+		Map<Person, List<Pet>> map = new HashMap<>();
 		try (Scanner sc = new Scanner(new File("save.txt"))) {
 			while (sc.hasNextLine()) {
 				String line = sc.nextLine();
 				if (!line.isEmpty()) {
 					String[] array = line.split(" ");
-					Map<Person, List<Pet>> map = new HashMap<>();
 					List<Pet> pets = new ArrayList<>();
 					for (int i = 3; i < array.length; i++) {
 						pets.add(new Pet(array[i]));
 					}
 					map.put(new Person(array[0], Integer.valueOf(array[1]), Gender.valueOf(array[2])), pets);
-					zooClub = new ZooClub(map);
-					zooClubs.add(zooClub);
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return zooClubs;
+		zooClub = new ZooClub(map);
+		return zooClub;
 	}
 }

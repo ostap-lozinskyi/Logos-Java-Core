@@ -93,10 +93,7 @@ public class Main {
 				serializator.serializeOverride(zooClub);
 				break;
 			case "9":
-				List<ZooClub> zooClubs=serializator.readFromFile();
-				for (ZooClub zooClub : zooClubs) {
-					printZooClub(zooClub);
-				}
+				printZooClub(serializator.readFromFile());
 				break;
 			case "0":
 				isRun = false;
