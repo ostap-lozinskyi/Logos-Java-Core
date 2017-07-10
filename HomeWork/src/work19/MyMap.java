@@ -12,7 +12,16 @@ public class MyMap<K, V> {
 	private List<V> valueList = new ArrayList<>();
 
 	public void addToMap(K key, V value) {
-		myEntries.add(new MyEntry<>(key, value));
+		boolean hasEntry = false;
+		MyEntry<K, V> newEntry = new MyEntry<>(key, value);
+		for (MyEntry<K, V> myEntry : myEntries) {
+			if (myEntry.equals(newEntry)) {
+				hasEntry = true;
+			}
+		}
+		if (!hasEntry) {
+			myEntries.add(newEntry);
+		}
 	}
 
 	public void removeByKey(K key) {

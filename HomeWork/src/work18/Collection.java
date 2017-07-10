@@ -1,5 +1,8 @@
 package work18;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Collection {
 
 	private static Object[] objects;
@@ -18,19 +21,20 @@ public class Collection {
 			}
 
 			@Override
-			public Object next() {
+			public List<Object> next() {
+				List<Object> newObjects = new ArrayList<>();
 				while (hasNext()) {
 					if ((int) objects[nextIndex] % 2 != 0) {
-						System.out.print(objects[nextIndex] + " ");
+						newObjects.add(objects[nextIndex]);
 					}
 					nextIndex -= 3;
 				}
-				return objects;
+				return newObjects;
 			}
 		};
 	}
 
-	void checkFifth(Object[] objects) {
+	List<Object> checkFifth(Object[] objects) {
 		class Check implements Iterator {
 			private int nextIndex = 0;
 
@@ -40,18 +44,19 @@ public class Collection {
 			}
 
 			@Override
-			public Object next() {
+			public List<Object> next() {
+				List<Object> newObjects = new ArrayList<>();
 				while (hasNext()) {
 					if ((int) objects[nextIndex] % 2 == 0) {
-						System.out.print(((int) objects[nextIndex] - 100) + " ");
+						newObjects.add((int) objects[nextIndex] - 100);
 					}
 					nextIndex += 5;
 				}
-				return objects;
+				return newObjects;
 			}
 		}
 		Check check = new Check();
-		check.next();
+		return check.next();
 	}
 
 	public class FirstEnd implements Iterator {
@@ -63,21 +68,23 @@ public class Collection {
 		}
 
 		@Override
-		public Object next() {
+		public Object[] next() {
+			Object[] newObjects = new Object[objects.length];
 			while (hasNext()) {
 				if ((int) objects[nextIndex] % 2 != 0) {
-					System.out.print(0 + " ");
+					newObjects[nextIndex] = 0;
 				} else {
-					System.out.print(objects[nextIndex] + " ");
+					newObjects[nextIndex] = objects[nextIndex];
 				}
 				nextIndex++;
 			}
-			return objects;
+			return newObjects;
 		}
 	}
 
 	public class EndFirst implements Iterator {
 		private int nextIndex = objects.length - 1;
+		int newObjectsIndex = 0;
 
 		@Override
 		public boolean hasNext() {
@@ -85,17 +92,20 @@ public class Collection {
 		}
 
 		@Override
-		public Object next() {
+		public Object[] next() {
+			Object[] newObjects = new Object[objects.length / 2];
 			while (hasNext()) {
-				System.out.print(objects[nextIndex] + " ");
+				newObjects[newObjectsIndex] = objects[nextIndex];
+				newObjectsIndex++;
 				nextIndex -= 2;
 			}
-			return objects;
+			return newObjects;
 		}
 	}
 
 	public static class CheckSecond implements Iterator {
 		private int nextIndex = 0;
+		int newObjectsIndex = 0;
 
 		@Override
 		public boolean hasNext() {
@@ -103,15 +113,24 @@ public class Collection {
 		}
 
 		@Override
-		public Object next() {
+		public Object[] next() {
+			Object[] newObjects = new Object[objects.length / 2];
 			while (hasNext()) {
 				if ((int) objects[nextIndex] % 2 == 0) {
-					System.out.print(((int) objects[nextIndex] + 1) + " ");
+					newObjects[newObjectsIndex] = (int) objects[nextIndex] + 1;
 				}
+				newObjectsIndex++;
 				nextIndex += 2;
 			}
-			return objects;
+			return newObjects;
 		}
+	}
+
+	public void print(Object[] objects) {
+		for (Object object : objects) {
+			System.out.print(object + " ");
+		}
+		System.out.println();
 	}
 
 }

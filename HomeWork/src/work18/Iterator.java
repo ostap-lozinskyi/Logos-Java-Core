@@ -1,6 +1,6 @@
 package work18;
 
-public interface Iterator extends java.util.Iterator<Object> {
+public interface Iterator {
 
 	boolean hasNext();
 

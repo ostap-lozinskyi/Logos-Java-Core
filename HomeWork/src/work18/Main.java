@@ -20,48 +20,40 @@ import work18.Collection.CheckSecond;
 */
 
 public class Main {
-	public void print(Object[] objects) {
+	public void start() {
+		Object[] objects = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+		Collection collection = new Collection(objects);
 		System.out.println("Вхідний масив:");
-
-		for (Object object : objects) {
-			System.out.print(object + " ");
-		}
-		System.out.println();
+		collection.print(objects);
 		System.out.println();
 
 		System.out.println("Вивід значення масиву від першого до останнього. Заміна непарних елементів на нуль:");
-		Collection collection = new Collection(objects);
 		Collection.FirstEnd firstEnd = collection.new FirstEnd();
-		firstEnd.next();
-		System.out.println();
+		collection.print(firstEnd.next());
 		System.out.println();
 
 		System.out.println("Вивід від останнього до першого значення через одну цифру:");
 		Collection.EndFirst endFirst = collection.new EndFirst();
-		endFirst.next();
-		System.out.println();
+		collection.print(endFirst.next());
 		System.out.println();
 
 		System.out.println("Вивід від останнього до першого елементу масиву кожен третій елемент, якщо він непарний");
-		collection.checkThird(objects).next();
-		System.out.println();
+		System.out.println(collection.checkThird(objects).next());
 		System.out.println();
 
 		System.out.println(
 				"Вивід від першого до останнього елементу масиву кожен п’ятий елемент, якщо він парний, і відняти від нього число 100");
-		collection.checkFifth(objects);
-		System.out.println();
+		System.out.println(collection.checkFifth(objects));
 		System.out.println();
 
 		System.out.println(
 				"Вивід від першого до останнього елемента масиву кожен другий елемент, якщо він парний - зробити непарним:");
 		CheckSecond checkSecond = new CheckSecond();
-		checkSecond.next();
+		collection.print(checkSecond.next());
 	}
 
 	public static void main(String[] args) {
-		Object[] objects = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 		Main main = new Main();
-		main.print(objects);
+		main.start();
 	}
 }
