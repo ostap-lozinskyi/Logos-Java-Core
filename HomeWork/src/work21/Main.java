@@ -10,51 +10,54 @@ public class Main {
 
 	public static void main(String[] args) {
         Class<?> cl = TestReflection.class;
-
+        
+        System.out.println("Пакет:");
         Package p = cl.getPackage();
-        System.out.println("package " + p.getName() + ";");
-
+        System.out.println(p.getName());
+        
+        System.out.println("Клас:");
+        System.out.println(cl.getSimpleName());
+        
+        System.out.println("Модифікатори");
         int modifiers = cl.getModifiers();
-        System.out.print(getModifiers(modifiers));
-        System.out.print("class " + cl.getSimpleName() + " ");
+        System.out.println(getModifiers(modifiers));        
 
-        System.out.print("extends " + cl.getSuperclass().getSimpleName() + " ");
+        System.out.println("Суперклас:");
+        System.out.println(cl.getSuperclass().getSimpleName());
 
+        System.out.println("Інтерфейcи:");
         Class<?>[] interfaces = cl.getInterfaces();
-        for (int i = 0, size = interfaces.length; i < size; i++) {
-            System.out.print(i == 0 ? "implements " : ", ");
-            System.out.print(interfaces[i].getSimpleName());
-        }
-        System.out.println(" {");
-
-        Field[] fields = cl.getDeclaredFields();
+        for (Class<?> class1 : interfaces) {
+			System.out.println(class1);
+		}
+        
+        System.out.println("Поля:");
+        Field[] fields = cl.getDeclaredFields();       
         for (Field field : fields) {
-            System.out.println("\t" + getModifiers(field.getModifiers())
+            System.out.println(getModifiers(field.getModifiers())
                     + getType(field.getType()) + " " + field.getName() + ";");
         }
 
+        System.out.println("Конструктори:");
         Constructor<?>[] constructors = cl.getDeclaredConstructors();
         for (Constructor<?> c : constructors) {
-            System.out.print("\t" + getModifiers(c.getModifiers()) +
+            System.out.print(getModifiers(c.getModifiers()) +
                     cl.getSimpleName() + "(");
             System.out.print(getParameters(c.getParameterTypes()));
             System.out.println(") { }");
         }
 
+        System.out.println("Методи:");
         Method[] methods = cl.getDeclaredMethods();
         for (Method m : methods) {
             Annotation[] annotations = m.getAnnotations();
-            System.out.print("\t");
             for (Annotation a : annotations)
                 System.out.print("@" + a.annotationType().getSimpleName() + " ");
-            System.out.println();
-
-            System.out.print("\t" + getModifiers(m.getModifiers()) +
+            System.out.print(getModifiers(m.getModifiers()) +
                     getType(m.getReturnType()) + " " + m.getName() + "(");
             System.out.print(getParameters(m.getParameterTypes()));
-            System.out.println(") { }");
+            System.out.println(")");
         }
-
         System.out.println("}");
     }
 
@@ -80,7 +83,7 @@ public class Main {
         String p = "";
         for (int i = 0, size = params.length; i < size; i++) {
             if (i > 0) p += ", ";
-            p += getType(params[i]) + " param" + i;
+            p += getType(params[i]) + " arg";
         }
         return p;
     }

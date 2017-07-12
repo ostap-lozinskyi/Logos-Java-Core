@@ -1,9 +1,11 @@
 package work21;
 
-public class TestReflection {
+import java.io.Serializable;
+
+public class TestReflection implements Serializable {
 	public boolean isEmpty = false;
 	private int i = 5;
-	
+
 	public TestReflection(boolean isEmpty, int i) {
 		super();
 		this.isEmpty = isEmpty;
